@@ -21,7 +21,7 @@ const cartItemSlice = createSlice({
             console.log(newItem);
             // adding check for an existingItem with the same id
             const existingItem = state.cartItems.find(item => item.itemId === newItem.itemId);
-            console.log(existingItem);
+            //console.log(existingItem);
             if(!existingItem) {
                 // Include the specific properties of the newItem Object -> not just .push(newItem), 
                     //properties include name, id, price, quantity/amount and overall price of item(s)

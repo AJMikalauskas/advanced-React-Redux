@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialCartModalState = {showingCart: false};
+const initialCartModalState = {showingCart: false, notification: null};
 
 const showingCartModalSlice = createSlice({
     name:"cartModal",
@@ -12,6 +12,11 @@ const showingCartModalSlice = createSlice({
         },
         stopShowingCartModal(state) {
             state.showingCart = false;
+        },
+        // This is just to show onofification for HTTP request of PUT in APP.js file
+        showNotification(state,action)
+        {
+            state.notification = {status: action.payload.status, title: action.payload.title, message: action.payload.message};
         }
     }
 });
