@@ -5,6 +5,10 @@ import classes from './ProductItem.module.css';
 import { cartItemSliceActions } from '../../cartItemSliceLogic';
 
 const ProductItem = (props) => {
+  // To add HTTP calls, you must do it outside of the reducer functions or else errors will occur,
+    // You can run the reducer logic here and just store the data in the reducer but it would rather be pointless, even though possible
+      // Not smart to create a lot fo code that would haev to be replicated a lot of places.
+
   const { id,title, price, description } = props;
 //  I was testing the visiblity of this element based on the redux, helped me to figure out to put this conditional in the app.js
   //  const testRedux = useSelector(cartModalTest => cartModalTest.cartModal.showingCart);
