@@ -12,6 +12,9 @@ const cartItemSlice = createSlice({
   },
   reducers: {
     // use his replace cart reducer so that empty data on reload of page is changed to data from firebase
+
+        // When this is called, you can see in Redux DevTools Chrome extension -> this goes for reducer functions and properties within
+        // the overall slice.
     replaceCart(state, action) {
         state.cartItems = action.payload.cartItems;
         state.totalOverallAmount = action.payload.totalOverallAmount;
