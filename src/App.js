@@ -6,7 +6,7 @@ import { Fragment, useEffect, useState } from 'react';
 import ShoppingCartModal from './components/UI/Modal';
 import Notification from './components/UI/Notification';
 import { showingCartModalActions } from './store/modal';
-import {sendCartData } from "./cartItemSliceLogic";
+import {fetchCartData, sendCartData } from "../src/store/cart-fetchActionsSlice";
 
 // This is so the request isn't sent on the start of the page, not what I would expect 
 let isInitial = true;
@@ -29,6 +29,17 @@ function App() {
   // const [ifError, setIfError] = useState();
   //const dispatch = useDispatch();
   const notification = useSelector(state => state.cartModal.notification);
+
+  // Create a sepearate useEffect() with an empty dependency array so that it fetches and GETs data from firebase only on the start of the page.
+    // dispatch never changes so this useEffect should never rerun
+  useEffect(() =>
+  {
+    dispatch(fetchCartData());
+  }, [dispatch]);
+  // This causes a problem because it alters the cartItemSliceLogic.js properties which is called as a dependency in the below useEffect();
+    // This is a major problem because we do need to track changes in the cart but  we MUST change the data on the load of the page
+      // to show the firebase data. This needs to be fixed!
+
   useEffect(() => {
     // Call sendCartData function from cartItemSliceLogic and use useSelecotr function to get and send up with the cart data
       // The cartData contains the cartItems array, overallCost and overall quantity
@@ -39,8 +50,9 @@ function App() {
         isInitial = false;
         return;
       }
+      if(cartStateTracker.changed) {
       dispatch(sendCartData(cartStateTracker));
-
+      }
     // This if statement didn't work because if the cart item has o amount it will be removed, which means the PUT req will never get called
       // and considering, even if it was called, it would still result in the same error of having totalCost and totalQuantity as 0
         // when we want overall deletion from the whole DB if 0 exist -> internet solution is action creator thunks
